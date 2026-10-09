@@ -31,23 +31,25 @@ export function PhotoBox({ title, photo, onPhoto }: { title: string; photo: Phot
       {photo ? (
         <div className="relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={photo.thumb} alt={title} className="aspect-square w-full rounded-lg bg-page object-cover" />
+          <img src={photo.thumb} alt={title} className="aspect-square w-full rounded-card bg-leaf-50 object-cover shadow-card" />
           <button
             type="button"
             onClick={() => onPhoto(null)}
-            className="absolute right-2 top-2 rounded-full bg-ink/80 px-3 py-1 text-[14px] font-semibold text-white"
+            className="absolute right-2 top-2 min-h-9 rounded-full bg-ink/75 px-3.5 text-[14px] font-semibold text-white backdrop-blur transition-colors duration-200 hover:bg-ink"
           >
             Retake
           </button>
         </div>
       ) : (
-        <label className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-line bg-page text-leaf hover:border-leaf">
-          {busy ? <Spinner className="h-7 w-7" /> : <CameraIcon className="h-8 w-8" />}
+        <label className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-card border-2 border-dashed border-leaf-200 bg-leaf-50 text-leaf transition-colors duration-200 hover:border-leaf hover:bg-leaf-soft">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-card">
+            {busy ? <Spinner className="h-7 w-7" /> : <CameraIcon className="h-7 w-7" />}
+          </span>
           <span className="font-semibold">{title}</span>
           <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={(e) => onFile(e.target.files?.[0])} />
         </label>
       )}
-      {error ? <p className="mt-1 text-[14px] text-chilli">Couldn&apos;t open that photo. Try again.</p> : null}
+      {error ? <p className="mt-2 text-[14px] text-chilli">Couldn&apos;t open that photo. Try again.</p> : null}
     </div>
   );
 }

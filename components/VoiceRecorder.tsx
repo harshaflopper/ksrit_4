@@ -76,35 +76,43 @@ export function VoiceRecorder({ audio, onAudio }: { audio: string | null; onAudi
 
   return (
     <div>
-      <p className="mb-1 font-semibold">Voice note</p>
-      <p className="mb-2 text-[14.5px] text-mute">Say how many packs you have and the expiry date. For example: 24 packets, expiry 20 October.</p>
+      <p className="font-display text-[19px] font-bold">Voice note</p>
+      <p className="mb-4 text-[14.5px] text-mute">Say how many packs you have and the expiry date. For example: 24 packets, expiry 20 October.</p>
       {audio && state === "idle" ? (
-        <div className="space-y-2 rounded-lg bg-leaf-soft p-3">
+        <div className="space-y-3 rounded-card bg-leaf-soft p-4 ring-1 ring-leaf-200">
           <audio controls src={audio} className="w-full" />
-          <div className="flex gap-2">
-            <button type="button" onClick={start} className="rounded-full bg-card px-4 py-2 font-semibold text-leaf hover:bg-line">
+          <div className="flex flex-wrap justify-center gap-2">
+            <button
+              type="button"
+              onClick={start}
+              className="min-h-11 rounded-full bg-white px-5 font-semibold text-leaf shadow-card transition-colors duration-200 hover:bg-leaf-50"
+            >
               Record again
             </button>
-            <button type="button" onClick={() => onAudio(null)} className="rounded-full px-4 py-2 font-semibold text-mute hover:bg-card">
+            <button
+              type="button"
+              onClick={() => onAudio(null)}
+              className="min-h-11 rounded-full px-5 font-semibold text-mute transition-colors duration-200 hover:bg-white"
+            >
               Delete
             </button>
           </div>
         </div>
       ) : (
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-center gap-3 rounded-card bg-leaf-50 px-4 py-6 ring-1 ring-line">
           <button
             type="button"
             onClick={state === "recording" ? stop : start}
             disabled={state === "saving"}
             aria-pressed={state === "recording"}
-            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-semibold ${
-              state === "recording" ? "bg-chilli text-white" : "bg-leaf-soft text-leaf hover:bg-leaf hover:text-white"
+            className={`inline-flex min-h-14 items-center gap-3 rounded-full px-7 py-3 text-[17px] font-semibold transition-[background-color,transform] duration-200 active:scale-[0.98] ${
+              state === "recording" ? "pulse-ring bg-chilli text-white" : "bg-leaf text-white shadow-glow hover:bg-leaf-dark"
             }`}
           >
             {state === "saving" ? (
               <Spinner />
             ) : (
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
                 <rect x="9" y="3" width="6" height="11" rx="3" />
                 <path d="M5 11a7 7 0 0 0 14 0M12 18v3" strokeLinecap="round" />
               </svg>
@@ -112,13 +120,13 @@ export function VoiceRecorder({ audio, onAudio }: { audio: string | null; onAudi
             {state === "recording" ? "Stop" : state === "saving" ? "Saving" : "Record voice note"}
           </button>
           {state === "recording" ? (
-            <span className="text-[14.5px] text-chilli">
+            <span className="nums text-[14.5px] font-semibold text-chilli">
               Recording 0:{String(seconds).padStart(2, "0")}, tap Stop when done
             </span>
           ) : null}
         </div>
       )}
-      {error ? <p className="mt-1 text-[14.5px] text-chilli">{error}</p> : null}
+      {error ? <p className="mt-2 text-[14.5px] text-chilli">{error}</p> : null}
     </div>
   );
 }

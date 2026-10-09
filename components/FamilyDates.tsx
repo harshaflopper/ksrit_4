@@ -37,22 +37,22 @@ export function FamilyDates({ value, onChange }: { value: FamilyForm; onChange: 
     onChange({ ...value, children: value.children.map((c, j) => (j === i ? { ...c, ...patch } : c)) });
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <label className="block">
-        <span className="mb-1 block font-semibold">Your birthday</span>
+        <span className="mb-1.5 block font-semibold">Your birthday</span>
         <input type="date" className={field} value={value.birthday} onChange={(e) => onChange({ ...value, birthday: e.target.value })} />
       </label>
       <label className="block">
-        <span className="mb-1 block font-semibold">Wedding anniversary (optional)</span>
+        <span className="mb-1.5 block font-semibold">Wedding anniversary (optional)</span>
         <input type="date" className={field} value={value.anniversary} onChange={(e) => onChange({ ...value, anniversary: e.target.value })} />
       </label>
       <div>
-        <span className="mb-1 block font-semibold">Children&apos;s birthdays (optional)</span>
-        <div className="space-y-2">
+        <span className="mb-1.5 block font-semibold">Children&apos;s birthdays (optional)</span>
+        <div className="space-y-3">
           {value.children.map((c, i) => (
-            <div key={i} className="flex gap-2">
+            <div key={i} className="flex flex-wrap gap-2 rounded-xl bg-leaf-50 p-3 ring-1 ring-line sm:flex-nowrap">
               <input
-                className={`${field} min-w-0 flex-1`}
+                className={`${field} min-w-0 basis-full bg-white sm:basis-auto sm:flex-1`}
                 placeholder="Name"
                 value={c.name}
                 onChange={(e) => setChild(i, { name: e.target.value })}
@@ -60,7 +60,7 @@ export function FamilyDates({ value, onChange }: { value: FamilyForm; onChange: 
               />
               <input
                 type="date"
-                className={`${field} w-[46%]`}
+                className={`${field} min-w-0 flex-1 bg-white sm:w-[42%] sm:flex-none`}
                 value={c.date}
                 onChange={(e) => setChild(i, { date: e.target.value })}
                 aria-label={`Child ${i + 1} birthday`}
@@ -68,7 +68,7 @@ export function FamilyDates({ value, onChange }: { value: FamilyForm; onChange: 
               <button
                 type="button"
                 onClick={() => onChange({ ...value, children: value.children.filter((_, j) => j !== i) })}
-                className="shrink-0 rounded-lg px-2 text-mute hover:bg-page"
+                className="min-h-12 shrink-0 rounded-xl px-3 font-semibold text-mute transition-colors duration-200 hover:bg-white hover:text-chilli"
                 aria-label={`Remove child ${i + 1}`}
               >
                 Remove
@@ -80,7 +80,7 @@ export function FamilyDates({ value, onChange }: { value: FamilyForm; onChange: 
           <button
             type="button"
             onClick={() => onChange({ ...value, children: [...value.children, { name: "", date: "" }] })}
-            className="mt-2 font-semibold text-leaf hover:underline"
+            className="mt-3 inline-flex min-h-11 items-center rounded-full px-4 font-semibold text-leaf ring-1 ring-leaf-200 transition-colors duration-200 hover:bg-leaf-50"
           >
             Add a child
           </button>

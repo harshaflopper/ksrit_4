@@ -210,24 +210,24 @@ export function VoiceInput({
 
   return (
     <div>
-      <label className="mb-1 block font-semibold" htmlFor={`voice-${label}`}>
+      <label className="mb-1.5 block font-semibold" htmlFor={`voice-${label}`}>
         {label}
       </label>
       <textarea
         id={`voice-${label}`}
-        className={`${field} min-h-[88px] resize-y`}
+        className={`${field} min-h-[104px] resize-y leading-relaxed`}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
       />
-      <div className="mt-2 flex flex-wrap items-center gap-2">
+      <div className="mt-3 flex flex-wrap items-center gap-3">
         <button
           type="button"
           onClick={active ? stop : start}
           disabled={state === "transcribing"}
           aria-pressed={active}
-          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 font-semibold ${
-            active ? "bg-chilli text-white" : "bg-leaf-soft text-leaf hover:bg-leaf hover:text-white"
+          className={`inline-flex min-h-12 items-center gap-2 rounded-full px-5 py-2.5 font-semibold transition-[background-color,transform] duration-200 active:scale-[0.98] ${
+            active ? "pulse-ring bg-chilli text-white" : "bg-leaf text-white shadow-glow hover:bg-leaf-dark"
           }`}
         >
           {state === "transcribing" ? (
@@ -245,7 +245,7 @@ export function VoiceInput({
           value={lang}
           onChange={(e) => setLang(e.target.value)}
           disabled={active}
-          className="rounded-full border border-line bg-card px-3 py-2 text-[15px]"
+          className="min-h-12 rounded-full border border-line bg-white px-4 text-[15px] transition-colors duration-200 hover:border-leaf-200"
         >
           {LANGS.map((l) => (
             <option key={l.code} value={l.code}>
@@ -253,14 +253,14 @@ export function VoiceInput({
             </option>
           ))}
         </select>
-        {state === "listening" ? <span className="text-[14.5px] text-chilli">Listening</span> : null}
+        {state === "listening" ? <span className="text-[14.5px] font-semibold text-chilli">Listening</span> : null}
         {state === "recording" ? (
-          <span className="text-[14.5px] text-chilli">
+          <span className="nums text-[14.5px] font-semibold text-chilli">
             Recording 0:{String(seconds).padStart(2, "0")}, tap Stop when done
           </span>
         ) : null}
       </div>
-      {error ? <p className="mt-1 text-[14.5px] text-chilli">{error}</p> : null}
+      {error ? <p className="mt-2 text-[14.5px] text-chilli">{error}</p> : null}
     </div>
   );
 }

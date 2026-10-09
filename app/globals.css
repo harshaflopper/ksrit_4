@@ -1,22 +1,40 @@
 @import "tailwindcss";
 
 @theme {
+  /* Brand: leaf (primary), turmeric (accent, focus), chilli (errors only) */
   --color-leaf: #1e6b4e;
   --color-leaf-dark: #155239;
-  --color-leaf-soft: #e2efe7;
+  --color-leaf-deep: #0e3b29;
+  --color-leaf-soft: #e4f1e9;
+  --color-leaf-50: #f1f8f3;
+  --color-leaf-200: #bcdcc9;
   --color-turmeric: #f2b01e;
-  --color-turmeric-soft: #fff1c9;
+  --color-turmeric-dark: #d99a0b;
+  --color-turmeric-soft: #fff3d1;
   --color-turmeric-ink: #6b4700;
   --color-chilli: #b9381f;
-  --color-chilli-soft: #fbe6e1;
-  --color-ink: #17262a;
-  --color-mute: #5d6b69;
-  --color-page: #edf1ec;
-  --color-line: #d9e1da;
+  --color-chilli-soft: #fcebe6;
+
+  /* Neutrals */
+  --color-ink: #14221f;
+  --color-mute: #56645f;
+  --color-page: #f3f6f2;
+  --color-line: #e2e8e3;
   --color-card: #ffffff;
 
   --font-display: "Baloo 2", "Hind", system-ui, sans-serif;
   --font-body: "Hind", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Soft, layered depth instead of hard borders */
+  --shadow-card: 0 1px 2px rgb(20 34 31 / 0.04), 0 6px 20px -8px rgb(20 34 31 / 0.1);
+  --shadow-lift: 0 2px 4px rgb(20 34 31 / 0.05), 0 16px 32px -12px rgb(20 34 31 / 0.18);
+  --shadow-pop: 0 24px 60px -16px rgb(20 34 31 / 0.35);
+  --shadow-glow: 0 8px 24px -8px rgb(30 107 78 / 0.45);
+
+  --radius-card: 18px;
+  --radius-field: 12px;
+
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 :root {
@@ -24,18 +42,29 @@
 }
 
 body {
-  background: var(--color-page);
+  background:
+    radial-gradient(1200px 400px at 50% -200px, var(--color-leaf-soft), transparent 70%),
+    var(--color-page);
+  background-repeat: no-repeat;
+  background-color: var(--color-page);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.01em;
 }
 
 :focus-visible {
   outline: 3px solid var(--color-turmeric);
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 input,
@@ -45,13 +74,71 @@ button {
   font: inherit;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+/* Prices, counts and distances line up */
+.nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sticky glassy header */
+.glass {
+  background: rgb(255 255 255 / 0.78);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  backdrop-filter: saturate(160%) blur(14px);
+}
+
+/* Clickable cards rise a little on hover */
+.lift {
+  transition:
+    transform 200ms var(--ease-soft),
+    box-shadow 200ms var(--ease-soft);
+}
+.lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Loading placeholders */
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
   }
+  to {
+    background-position: -200% 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e9eee9 25%, #f5f8f5 50%, #e9eee9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: 10px;
+}
+
+/* Calm pulsing ring while the mic or camera is live */
+@keyframes ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(185 56 31 / 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgb(185 56 31 / 0);
+  }
+}
+.pulse-ring {
+  animation: ring 1.6s var(--ease-soft) infinite;
+}
+
+/* Bottom sheet / dialog entrance */
+@keyframes rise {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.rise {
+  animation: rise 220ms var(--ease-soft) both;
 }
 
 /* The one orchestrated moment: a newly posted deal settles into the feed. */
@@ -74,4 +161,25 @@ button {
 }
 .spinner {
   animation: spin 0.9s linear infinite;
+}
+
+/* Native details marker off; the summary styles its own chevron */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .lift:hover {
+    transform: none;
+  }
 }

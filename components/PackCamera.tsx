@@ -114,7 +114,7 @@ export function PackCamera({
   if (status === "unavailable") {
     return (
       <div>
-        {error ? <p className="mb-2 text-[14.5px] text-chilli">{error}</p> : null}
+        {error ? <p className="mb-3 rounded-xl bg-turmeric-soft px-4 py-3 text-[14.5px] text-turmeric-ink">{error}</p> : null}
         <div className="grid grid-cols-2 gap-3">
           <PhotoBox title="Front" photo={front} onPhoto={onFront} />
           <PhotoBox title="Back" photo={back} onPhoto={onBack} />
@@ -124,13 +124,13 @@ export function PackCamera({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {side ? (
         <div>
-          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-ink sm:aspect-[4/3]">
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-card bg-ink shadow-lift ring-1 ring-ink/10 sm:aspect-[4/3]">
             <video ref={videoRef} autoPlay playsInline muted className="h-full w-full object-cover" />
-            <div className="pointer-events-none absolute inset-[10%] rounded-xl border-2 border-white/70" aria-hidden />
-            <p className="absolute left-3 top-3 rounded-full bg-ink/75 px-3 py-1 text-[14.5px] font-semibold text-white">
+            <div className="pointer-events-none absolute inset-[10%] rounded-2xl border-2 border-dashed border-white/70" aria-hidden />
+            <p className="absolute left-3 right-3 top-3 w-fit rounded-full bg-ink/70 px-3.5 py-1.5 text-[14px] font-semibold text-white backdrop-blur">
               {side === "front" ? "1 of 2" : "2 of 2"}: {LABEL[side]}
             </p>
             {status === "starting" ? (
@@ -139,17 +139,25 @@ export function PackCamera({
               </span>
             ) : null}
           </div>
-          <div className="mt-2 flex items-center gap-2">
-            <button type="button" onClick={snap} disabled={status !== "live"} className={`${btnPrimary} flex-1 py-3 text-[17px]`}>
-              <CameraIcon /> Take {side} photo
+          <div className="mt-4 flex flex-col items-center gap-3">
+            <button
+              type="button"
+              onClick={snap}
+              disabled={status !== "live"}
+              className={`${btnPrimary} min-h-14 w-full max-w-[360px] rounded-full py-3.5 text-[17px]`}
+            >
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+                <CameraIcon />
+              </span>
+              Take {side} photo
             </button>
-            <label className="cursor-pointer rounded-lg bg-page px-3 py-3 font-semibold text-ink hover:bg-line">
+            <label className="inline-flex min-h-11 cursor-pointer items-center rounded-full px-4 font-semibold text-leaf ring-1 ring-leaf-200 transition-colors duration-200 hover:bg-leaf-50">
               {busy ? <Spinner /> : "Upload"}
               <input type="file" accept="image/*" className="sr-only" onChange={(e) => upload(e.target.files?.[0])} />
             </label>
           </div>
           {side === "back" ? (
-            <p className="mt-1 text-[14.5px] text-mute">Show the side with the expiry date and MRP printed on it.</p>
+            <p className="mt-2 text-center text-[14.5px] text-mute">Show the side with the expiry date and MRP printed on it.</p>
           ) : null}
         </div>
       ) : null}
@@ -161,17 +169,17 @@ export function PackCamera({
             return p ? (
               <div key={s} className="relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.thumb} alt={`${s} of the pack`} className="aspect-square w-full rounded-lg bg-page object-cover" />
+                <img src={p.thumb} alt={`${s} of the pack`} className="aspect-square w-full rounded-card bg-leaf-50 object-cover shadow-card" />
                 <button
                   type="button"
                   onClick={() => setPhoto(s, null)}
-                  className="absolute right-2 top-2 rounded-full bg-ink/80 px-3 py-1 text-[14px] font-semibold text-white"
+                  className="absolute right-2 top-2 min-h-9 rounded-full bg-ink/75 px-3.5 text-[14px] font-semibold text-white backdrop-blur transition-colors duration-200 hover:bg-ink"
                 >
                   Retake
                 </button>
               </div>
             ) : (
-              <span key={s} className="flex aspect-square w-full items-center justify-center rounded-lg border-2 border-dashed border-line bg-page text-mute">
+              <span key={s} className="flex aspect-square w-full items-center justify-center rounded-card border-2 border-dashed border-leaf-200 bg-leaf-50 font-semibold text-mute">
                 {s === "front" ? "Front" : "Back"}
               </span>
             );
