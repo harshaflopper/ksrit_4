@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --color-leaf: #1e6b4e;
+  --color-leaf-dark: #155239;
+  --color-leaf-soft: #e2efe7;
+  --color-turmeric: #f2b01e;
+  --color-turmeric-soft: #fff1c9;
+  --color-turmeric-ink: #6b4700;
+  --color-chilli: #b9381f;
+  --color-chilli-soft: #fbe6e1;
+  --color-ink: #17262a;
+  --color-mute: #5d6b69;
+  --color-page: #edf1ec;
+  --color-line: #d9e1da;
+  --color-card: #ffffff;
+
+  --font-display: "Baloo 2", "Hind", system-ui, sans-serif;
+  --font-body: "Hind", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-turmeric);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The one orchestrated moment: a newly posted deal settles into the feed. */
+@keyframes settle {
+  from {
+    box-shadow: 0 0 0 4px var(--color-turmeric);
+  }
+  to {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.just-posted {
+  animation: settle 2.4s ease-out 0.3s both;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  animation: spin 0.9s linear infinite;
+}
